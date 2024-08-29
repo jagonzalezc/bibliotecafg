@@ -13,7 +13,6 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@ToString
 public class Reserva implements Serializable {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
@@ -41,6 +40,25 @@ public class Reserva implements Serializable {
         this.fechaDevolucion = fechaDevolucion;
         this.anio = anio;
         this.genero = genero;
+    }
+
+
+    public Reserva(LocalDateTime fechaReserva, LocalDate fechaDevolucion, Integer anio, GeneroLibro genero, Usuario usuario, List<Libro> libros) {
+        this.fechaReserva = fechaReserva;
+        this.fechaDevolucion = fechaDevolucion;
+        this.anio = anio;
+        this.genero = genero;
+        this.usuario = usuario;
+        this.libros = libros;
+    }
+
+    @Override
+    public String toString() {
+        return "Reserva{" +
+                "codigo=" + codigo +
+                ", fechaReserva=" + fechaReserva +
+                ", fechaDevolucion=" + fechaDevolucion +
+                '}';
     }
 
 }

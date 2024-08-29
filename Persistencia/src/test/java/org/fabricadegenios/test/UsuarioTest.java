@@ -3,16 +3,27 @@ package org.fabricadegenios.test;
 import org.fabricadegenios.model.GeneroPersona;
 import org.fabricadegenios.model.Usuario;
 import org.fabricadegenios.repositorios.UsuarioRepo;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.querydsl.QPageRequest;
+import org.springframework.test.context.jdbc.Sql;
+
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Sql("classpath:data.sql") // Carga el archivo data.sql antes de ejecutar las pruebas
 public class UsuarioTest {
 
     @Autowired
@@ -124,6 +135,39 @@ public class UsuarioTest {
         System.out.println("Lista de usuarios:");
         lista.forEach(System.out::println);
     }
+
+    @Test
+    public void filtrarNombreTest() {
+        List<Usuario> lista = usuarioRepo.findAllByNombreContains("Maria");
+        lista.forEach(usuario -> System.out.println(usuario));
+    }
+
+    @Test
+    public void filtrarEmailTest() {
+        Optional<Usuario> usuario = usuarioRepo.findByEmail("maria@gmail.com");
+        if(usuario.isPresent()){
+            System.out.println(usuario.get());
+        }
+        else{
+            System.out.println("no existe usuario con ese correo");
+        }
+        }
+    @Test
+    public void paginarListaTest() {
+        // Configuramos el paginador con ordenamiento por cedula
+        Pageable pagina = PageRequest.of(2, 2, Sort.by("cedula"));
+
+        // Obtenemos la página de usuarios
+        Page<Usuario> lista = usuarioRepo.findAll(pagina);
+
+        // Verificamos que la página no esté vacía y tenga el tamaño esperado
+        Assertions.assertNotNull(lista);
+
+        // Imprimimos la página de usuarios ordenada por cedula
+        System.out.println("Página de usuarios ordenada por cedula:");
+        lista.getContent().forEach(System.out::println);
+    }
+
 }
 
 

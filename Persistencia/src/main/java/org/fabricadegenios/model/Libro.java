@@ -12,7 +12,6 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
-@ToString
 public class Libro implements Serializable {
     @Id
     @Column(length = 50)
@@ -59,4 +58,14 @@ public class Libro implements Serializable {
     public int hashCode() {
         return Objects.hashCode(isbn);
     }
+    @Override
+    public String toString() {
+        return "Libro{" +
+                "isbn=" + isbn +
+                ", nombre='" + nombre + '\'' +
+                ", unidades='" + unidades + '\'' +
+                ", anio='" + anio + '\'' +
+                '}';
+    }
+
 }

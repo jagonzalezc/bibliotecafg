@@ -12,7 +12,7 @@ import java.util.Map;
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @NoArgsConstructor
-@ToString
+
 public class Usuario implements Serializable {
 
     @Id
@@ -44,4 +44,16 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
+
+    @Override
+    public String toString() {
+        return "Usuario{" +
+                "cedula='" + cedula + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", genero=" + genero +
+                '}';
+    }
 }
+
