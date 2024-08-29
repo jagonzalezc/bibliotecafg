@@ -41,9 +41,6 @@ public class Usuario implements Serializable {
     @Enumerated(EnumType.STRING)
     private GeneroPersona genero;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Ciudad ciudad;
 
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
