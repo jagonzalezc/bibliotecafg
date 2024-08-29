@@ -6,6 +6,7 @@ import lombok.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,12 +20,21 @@ public class Reserva implements Serializable {
     @GeneratedValue(strategy =GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long codigo;
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime fechaReserva;
+    @Column(nullable = false)
     private LocalDate fechaDevolucion;
     private Integer anio;
 
     @Enumerated(EnumType.STRING)
     private GeneroLibro genero;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Usuario usuario;
+
+    @ManyToMany
+    private List<Libro> libros;
 
 
     public Reserva(LocalDateTime fechaReserva, LocalDate fechaDevolucion, Integer anio, GeneroLibro genero) {

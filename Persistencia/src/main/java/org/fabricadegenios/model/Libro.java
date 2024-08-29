@@ -1,14 +1,12 @@
 package org.fabricadegenios.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.EnumType;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,13 +15,23 @@ import java.util.Objects;
 @ToString
 public class Libro implements Serializable {
     @Id
+    @Column(length = 50)
     private String isbn;
+    @Column(length = 100, nullable = false)
     private String nombre;
+    @Column(nullable = false)
     private Integer unidades;
     private Integer anio;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private GeneroLibro genero;
+
+    @ManyToMany(mappedBy = "libros")
+    private List<Reserva> reservas;
+
+    @ManyToMany
+    private List<Autor> autores;
 
     // Constructor por defecto
     public Libro() {

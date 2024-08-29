@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 @Entity
 @Getter
@@ -17,8 +18,12 @@ public class Autor implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long codigo;
+    @Column(length = 200, nullable = false)
     private String nombre;
     private Integer anio;
+
+    @ManyToMany(mappedBy = "autores")
+    private List<Libro> libros;
 
     // Constructor con todos los atributos
     public Autor(String nombre, Integer anio) {

@@ -21,7 +21,11 @@ public class Ciudad {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private Long codigo;
+    @Column(length = 200, nullable = false)
     private String nombre;
+
+    @OneToMany(mappedBy = "ciudad")
+    private List<Usuario> usuarios;
 
     // Constructor con todos los atributos
     public Ciudad(String nombre) {
