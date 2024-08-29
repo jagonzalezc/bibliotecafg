@@ -1,9 +1,7 @@
 package org.fabricadegenios.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -13,10 +11,13 @@ import java.util.Objects;
 @Entity
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@NoArgsConstructor
 @ToString
 public class Reserva implements Serializable {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long codigo;
     private LocalDateTime fechaReserva;
     private LocalDate fechaDevolucion;
@@ -25,10 +26,6 @@ public class Reserva implements Serializable {
     @Enumerated(EnumType.STRING)
     private GeneroLibro genero;
 
-    // Constructor por defecto
-    public Reserva() {
-        super();
-    }
 
     public Reserva(LocalDateTime fechaReserva, LocalDate fechaDevolucion, Integer anio, GeneroLibro genero) {
         this.fechaReserva = fechaReserva;
@@ -37,17 +34,5 @@ public class Reserva implements Serializable {
         this.genero = genero;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Reserva reserva = (Reserva) o;
-        return Objects.equals(codigo, reserva.codigo);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(codigo);
-    }
 }
 
