@@ -14,12 +14,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -68,7 +66,7 @@ public class UsuarioTest {
         usuarioRepo.delete(registrado);
 
         // Verificamos que se haya eliminado correctamente
-        Usuario buscado = usuarioRepo.findById(registrado.getCodigo().toString()).orElse(null);
+        Usuario buscado = usuarioRepo.findById(registrado.getCodigo()).orElse(null);
         Assertions.assertNull(buscado);
 
         // Imprimimos información relevante después de eliminar
@@ -97,7 +95,7 @@ public class UsuarioTest {
         Usuario actualizado = usuarioRepo.save(registrado);
 
         // Verificamos que se haya actualizado correctamente
-        Usuario buscado = usuarioRepo.findById(actualizado.getCodigo().toString()).orElse(null);
+        Usuario buscado = usuarioRepo.findById(actualizado.getCodigo()).orElse(null);
         Assertions.assertNotNull(buscado);
         Assertions.assertEquals("Juanita Lopez", buscado.getNombre());
 
@@ -138,20 +136,11 @@ public class UsuarioTest {
 
     @Test
     public void filtrarNombreTest() {
-        List<Usuario> lista = usuarioRepo.findAllByNombreContains("Maria");
+        List<Usuario> lista = usuarioRepo.findAllByNombreContainsIgnoreCase("Maria");
         lista.forEach(usuario -> System.out.println(usuario));
     }
 
-    @Test
-    public void filtrarEmailTest() {
-        Optional<Usuario> usuario = usuarioRepo.findByEmail("maria@gmail.com");
-        if(usuario.isPresent()){
-            System.out.println(usuario.get());
-        }
-        else{
-            System.out.println("no existe usuario con ese correo");
-        }
-        }
+
     @Test
     public void paginarListaTest() {
         // Configuramos el paginador con ordenamiento por cedula

@@ -5,14 +5,13 @@ INSERT INTO usuario (codigo, email, password, cedula, nombre, genero) VALUES
                                                                           (3, "anamaria@gmail.com", "clave789", "33333333", "AnaMaria Gomez", 'FEMENINO'),
                                                                           (4, "carlos@gmail.com", "clave321", "44444444", "Carlos Ruiz", 'MASCULINO'),
                                                                           (5, "luis@gmail.com", "clave654", "55555555", "Luis Torres", 'MASCULINO');
-
 -- Datos para la entidad Libro
-INSERT INTO libro (isbn, nombre, unidades, anio, genero) VALUES
-                                                             ('9780140449136', 'The Odyssey', 10, 2003, 'LITERATURA'),
-                                                             ('9780262033848', 'Introduction to Algorithms', 5, 2009, 'INGENIERIA'),
-                                                             ('9780553386790', 'A Brief History of Time', 8, 1998, 'CIENCIA'),
-                                                             ('9780439139595', 'Harry Potter and the Goblet of Fire', 12, 2002, 'FICCION'),
-                                                             ('9781451621709', 'Steve Jobs', 7, 2011, 'HISTORIA');
+INSERT INTO libro (isbn, nombre, editorial, anio, disponible, genero) VALUES
+                                                              ('9780140449136', 'The Odyssey', 'Penguin Classics', 2003,true, 'LITERATURA'),
+                                                              ('9780262033848', 'Introduction to Algorithms', 'MIT Press', 2009,  true, 'INGENIERIA'),
+                                                              ('9780553386790', 'A Brief History of Time', 'Bantam Books', 1998, true, 'CIENCIA'),
+                                                              ('9780439139595', 'Harry Potter and the Goblet of Fire', 'Scholastic', 2002, true,  'FICCION'),
+                                                              ('9781451621709', 'Steve Jobs', 'Simon & Schuster', 2011, true,'HISTORIA');
 
 -- Datos para la entidad Autor
 INSERT INTO autor (codigo, nombre, anio) VALUES

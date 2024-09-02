@@ -10,6 +10,8 @@
     </parent>
 
     <artifactId>Persistencia</artifactId>
+    <name>Proyecto de Persistencia de los datos</name>
+    <description>Proyecto que contiene las entidades necesarias de la aplicación</description>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>

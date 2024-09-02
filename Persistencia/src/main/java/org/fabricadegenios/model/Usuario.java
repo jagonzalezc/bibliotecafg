@@ -1,6 +1,7 @@
 package org.fabricadegenios.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import lombok.*;
 
 import java.io.Serializable;
@@ -21,6 +22,7 @@ public class Usuario implements Serializable {
     private Long codigo;
 
     @Column(length = 120, nullable = false, unique = true)
+    @Email(message = "El email debe tener un formato válido")
     private String email;
 
     @Column(length = 20, nullable = false)
@@ -44,6 +46,14 @@ public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
+
+    public Usuario(String cedula, String email, GeneroPersona generoPersona, String nombre, String password) {
+        this.cedula = cedula;
+        this.email = email;
+        this.genero = generoPersona;
+        this.nombre = nombre;
+        this.password = password;
+    }
 
     @Override
     public String toString() {

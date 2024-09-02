@@ -3,7 +3,6 @@ package org.fabricadegenios.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.List;
@@ -19,8 +18,11 @@ public class Libro implements Serializable {
     @Column(length = 100, nullable = false)
     private String nombre;
     @Column(nullable = false)
-    private Integer unidades;
+    private String editorial;
     private Integer anio;
+
+    @Column(nullable = false)
+    private Boolean disponible;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -38,12 +40,14 @@ public class Libro implements Serializable {
     }
 
     // Constructor con todos los atributos
-    public Libro(String isbn, String nombre, Integer unidades, Integer anio, GeneroLibro genero) {
+    public Libro(String isbn, String nombre, String editorial, Integer anio, Boolean disponible, GeneroLibro genero) {
         this.isbn = isbn;
         this.nombre = nombre;
-        this.unidades = unidades;
+        this.editorial = editorial;
         this.anio = anio;
+        this.disponible = disponible;
         this.genero = genero;
+
     }
 
     @Override
@@ -63,8 +67,9 @@ public class Libro implements Serializable {
         return "Libro{" +
                 "isbn=" + isbn +
                 ", nombre='" + nombre + '\'' +
-                ", unidades='" + unidades + '\'' +
+                ", editorial='" + editorial + '\'' +
                 ", anio='" + anio + '\'' +
+                ", disponible='" + disponible + '\'' +
                 '}';
     }
 
