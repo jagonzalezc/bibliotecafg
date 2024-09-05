@@ -19,6 +19,8 @@ public interface AutorRepo extends JpaRepository<Autor, Long> {
     // Método para paginar sin condiciones (lista completa de autores)
     @Override
     Page<Autor> findAll(Pageable pageable);
+
+    Optional<Autor> findByNombre(String nombre);
 }
 
 

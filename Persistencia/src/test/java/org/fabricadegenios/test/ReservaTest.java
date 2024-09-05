@@ -228,6 +228,7 @@ public class ReservaTest {
 
 
     @Test
+    //Es equivalente a devolver los libros
     public void finalizarReservaTest() {
         // Crear un usuario
         Usuario usuario = new Usuario();
@@ -310,7 +311,7 @@ public class ReservaTest {
         }
 
         // Filtrar por usuario
-        List<Reserva> reservas = reservaRepo.findByUsuario(usuarioGuardado);
+        List<Reserva> reservas = reservaRepo.findByUsuario(usuarioGuardado.getCodigo());
 
         // Verificar que se han recuperado las reservas correctas
         Assertions.assertNotNull(reservas);
