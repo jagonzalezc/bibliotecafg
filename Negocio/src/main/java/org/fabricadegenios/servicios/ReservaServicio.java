@@ -1,19 +1,22 @@
 package org.fabricadegenios.servicios;
 
+import org.fabricadegenios.dto.ReservaDTO;
 import org.fabricadegenios.model.Reserva;
 
 import java.util.List;
 
 public interface ReservaServicio {
-    Reserva registrarReserva(Reserva reserva) throws Exception;
 
-    Reserva obtenerReserva(Long id) throws Exception;
 
-    Reserva actualizarReserva(Reserva reserva) throws Exception;
+    ReservaDTO registrarReserva(ReservaDTO reservaDTO) throws Exception;
+
+    ReservaDTO obtenerReserva(Long id) throws Exception;
+
+    ReservaDTO actualizarReserva(ReservaDTO reservaDTO) throws Exception;
 
     void eliminarReserva(Long id) throws Exception;
 
-    List<Reserva> listarReservas();
+    List<ReservaDTO> listarReservas();
 
-    List<Reserva> buscarReservasPorUsuario(Long usuarioId);
+    List<ReservaDTO> buscarReservasPorUsuario(Long usuarioCodigo) throws Exception;
 }

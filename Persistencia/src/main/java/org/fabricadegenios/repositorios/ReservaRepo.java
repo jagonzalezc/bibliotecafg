@@ -14,8 +14,7 @@ import java.util.List;
 public interface ReservaRepo extends JpaRepository<Reserva, Long> {
 
     // Método para filtrar reservas por usuario
-    @Query("SELECT r FROM Reserva r WHERE r.usuario.codigo = :codigo")
-    List<Reserva> findByUsuario(Long codigo);
+    List<Reserva> findByUsuario(Usuario usuario);
 
     // Método para paginar reservas, puedes usar findAll() de JpaRepository para obtener todas las reservas y luego aplicar la paginación
     @Override

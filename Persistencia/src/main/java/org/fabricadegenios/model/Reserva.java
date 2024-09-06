@@ -24,8 +24,6 @@ public class Reserva implements Serializable {
     private LocalDate fechaDevolucion;
     private Integer anio;
 
-    @Enumerated(EnumType.STRING)
-    private GeneroLibro genero;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -35,11 +33,10 @@ public class Reserva implements Serializable {
     private List<Libro> libros;
 
 
-    public Reserva(LocalDateTime fechaReserva, LocalDate fechaDevolucion, Integer anio, GeneroLibro genero) {
+    public Reserva(LocalDateTime fechaReserva, LocalDate fechaDevolucion, Integer anio) {
         this.fechaReserva = fechaReserva;
         this.fechaDevolucion = fechaDevolucion;
         this.anio = anio;
-        this.genero = genero;
     }
 
 
@@ -47,7 +44,6 @@ public class Reserva implements Serializable {
         this.fechaReserva = fechaReserva;
         this.fechaDevolucion = fechaDevolucion;
         this.anio = anio;
-        this.genero = genero;
         this.usuario = usuario;
         this.libros = libros;
     }

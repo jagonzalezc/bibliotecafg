@@ -1,5 +1,6 @@
 package org.fabricadegenios.servicios;
 
+import org.fabricadegenios.dto.AutorDTO;
 import org.fabricadegenios.model.Autor;
 import org.fabricadegenios.repositorios.AutorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AutorServicioImpl implements AutorServicio {
@@ -21,55 +23,74 @@ public class AutorServicioImpl implements AutorServicio {
     }
 
     @Override
-    public Autor registrarAutor(Autor autor) throws Exception {
-        Optional<Autor> buscado = autorRepo.findByNombre(autor.getNombre());
+    public AutorDTO registrarAutor(AutorDTO autorDTO) throws Exception {
+        Optional<Autor> buscado = autorRepo.findByNombre(autorDTO.nombre());
         if (buscado.isPresent()) {
             throw new Exception("El autor ya existe en el sistema.");
         }
-        return autorRepo.save(autor);
+
+        Autor autor = new Autor(autorDTO.nombre(), autorDTO.anio());
+        Autor guardado = autorRepo.save(autor);
+        return new AutorDTO(guardado.getCodigo(), guardado.getNombre(), guardado.getAnio());
     }
 
     @Override
-    public Autor obtenerAutor(Long id) throws Exception {
+    public AutorDTO obtenerAutor(Long id) throws Exception {
         Optional<Autor> buscado = autorRepo.findById(id);
         if (buscado.isEmpty()) {
             throw new Exception("El autor con el código proporcionado no existe.");
         }
-        return buscado.get();
+
+        Autor autor = buscado.get();
+        return new AutorDTO(autor.getCodigo(), autor.getNombre(), autor.getAnio());
     }
 
     @Override
-    public Autor actualizarAutor(Autor autor) throws Exception {
-        return autorRepo.save(autor);
-    }
-
-    @Override
-    public void eliminarAutor(Autor autor) throws Exception {
-        Optional<Autor> buscado = autorRepo.findById(autor.getCodigo());
+    public AutorDTO actualizarAutor(AutorDTO autorDTO) throws Exception {
+        Optional<Autor> buscado = autorRepo.findById(autorDTO.id());
         if (buscado.isEmpty()) {
             throw new Exception("El autor con el código proporcionado no existe.");
         }
-        autorRepo.delete(autor);
+
+        Autor autor = buscado.get();
+        autor.setNombre(autorDTO.nombre());
+        autor.setAnio(autorDTO.anio());
+        Autor actualizado = autorRepo.save(autor);
+        return new AutorDTO(actualizado.getCodigo(), actualizado.getNombre(), actualizado.getAnio());
     }
 
     @Override
-    public List<Autor> listarAutores() {
-        return autorRepo.findAll();
+    public void eliminarAutor(Long id) throws Exception {
+        Optional<Autor> buscado = autorRepo.findById(id);
+        if (buscado.isEmpty()) {
+            throw new Exception("El autor con el código proporcionado no existe.");
+        }
+        autorRepo.delete(buscado.get());
     }
 
     @Override
-    public Page<Autor> paginarAutores(Pageable pageable) {
-        return autorRepo.findAll(pageable);
+    public List<AutorDTO> listarAutores() {
+        return autorRepo.findAll().stream()
+                .map(autor -> new AutorDTO(autor.getCodigo(), autor.getNombre(), autor.getAnio()))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Page<Autor> buscarAutoresPorNombre(String nombre, Pageable pageable) {
-        return autorRepo.findByNombreContaining(nombre, pageable);
+    public Page<AutorDTO> paginarAutores(Pageable pageable) {
+        return autorRepo.findAll(pageable).map(autor -> new AutorDTO(autor.getCodigo(), autor.getNombre(), autor.getAnio()));
     }
 
     @Override
-    public List<Autor> listarAutoresPorIds(List<Long> ids) {
-        return autorRepo.findAllById(ids);
+    public Page<AutorDTO> buscarAutoresPorNombre(String nombre, Pageable pageable) {
+        return autorRepo.findByNombreContaining(nombre, pageable)
+                .map(autor -> new AutorDTO(autor.getCodigo(), autor.getNombre(), autor.getAnio()));
+    }
+
+    @Override
+    public List<AutorDTO> listarAutoresPorIds(List<Long> autorIds) {
+        List<Autor> autores = autorRepo.findAllById(autorIds);
+        return autores.stream()
+                .map(autor -> new AutorDTO(autor.getCodigo(), autor.getNombre(), autor.getAnio()))
+                .collect(Collectors.toList());
     }
 }
-

@@ -56,7 +56,7 @@ public class ReservaTest {
         Libro libroGuardado3 = libroRepo.save(libro3);
 
         // Crear una reserva con los libros
-        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024);
         reserva.setUsuario(usuarioGuardado);
         List<Libro> libros = List.of(libroGuardado1, libroGuardado2, libroGuardado3);
         reserva.setLibros(libros);
@@ -102,7 +102,7 @@ public class ReservaTest {
         Libro libroGuardado = libroRepo.save(libro);
 
         // Crear una reserva
-        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024);
         reserva.setUsuario(usuarioGuardado);
         List<Libro> librosReserva = new ArrayList<>();
         librosReserva.add(libroGuardado);
@@ -151,7 +151,7 @@ public class ReservaTest {
         Libro libroGuardado = libroRepo.save(libro);
 
         // Crear una reserva
-        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024);
         reserva.setUsuario(usuarioGuardado);
 
         // Asociar libros a la reserva
@@ -196,7 +196,7 @@ public class ReservaTest {
         Libro libroGuardado = libroRepo.save(libro);
 
         // Crear una reserva
-        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024);
         reserva.setUsuario(usuarioGuardado);
 
         // Asociar libros a la reserva
@@ -246,7 +246,7 @@ public class ReservaTest {
         Libro libroGuardado2 = libroRepo.save(libro2);
 
         // Crear una reserva con dos libros
-        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(10), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(10), 2024);
         reserva.setUsuario(usuarioGuardado);
         reserva.setLibros(new ArrayList<>(List.of(libroGuardado1, libroGuardado2)));
 
@@ -294,12 +294,12 @@ public class ReservaTest {
         Libro libroGuardado = libroRepo.save(libro);
 
         // Crear reservas
-        Reserva reserva1 = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva1 = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(7), 2024);
         reserva1.setUsuario(usuarioGuardado);
         reserva1.setLibros(List.of(libroGuardado));
         reservaRepo.save(reserva1);
 
-        Reserva reserva2 = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(14), 2024, GeneroLibro.LITERATURA);
+        Reserva reserva2 = new Reserva(LocalDateTime.now(), LocalDate.now().plusDays(14), 2024);
         reserva2.setUsuario(usuarioGuardado);
         reserva2.setLibros(List.of(libroGuardado));
         reservaRepo.save(reserva2);
@@ -311,7 +311,7 @@ public class ReservaTest {
         }
 
         // Filtrar por usuario
-        List<Reserva> reservas = reservaRepo.findByUsuario(usuarioGuardado.getCodigo());
+        List<Reserva> reservas = reservaRepo.findByUsuario(usuarioGuardado);
 
         // Verificar que se han recuperado las reservas correctas
         Assertions.assertNotNull(reservas);

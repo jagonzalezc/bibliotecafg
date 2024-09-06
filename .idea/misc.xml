@@ -8,6 +8,10 @@
       </list>
     </option>
   </component>
+  <component name="ProjectResources">
+    <resource url="http://primefaces.org/ui" location="$PROJECT_DIR$" />
+    <resource url="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" location="$PROJECT_DIR$" />
+  </component>
   <component name="ProjectRootManager" version="2" project-jdk-name="openjdk-22" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>

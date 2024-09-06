@@ -22,12 +22,12 @@ INSERT INTO autor (codigo, nombre, anio) VALUES
                                              (5, 'Walter Isaacson', 2011);
 
 -- Datos para la entidad Reserva
-INSERT INTO reserva (codigo, fecha_reserva, fecha_devolucion, anio, genero, usuario_codigo) VALUES
-                                                                                                (1, '2024-01-10 10:30:00', '2024-02-10', 2024, 'LITERATURA', 1),
-                                                                                                (2, '2024-02-15 11:45:00', '2024-03-15', 2024, 'INGENIERIA', 2),
-                                                                                                (3, '2024-03-20 14:20:00', '2024-04-20', 2024, 'CIENCIA', 3),
-                                                                                                (4, '2024-04-25 09:15:00', '2024-05-25', 2024, 'FICCION', 4),
-                                                                                                (5, '2024-05-30 16:10:00', '2024-06-30', 2024, 'HISTORIA', 5);
+INSERT INTO reserva (codigo, fecha_reserva, fecha_devolucion, anio, usuario_codigo) VALUES
+                                                                                                (1, '2024-01-10 10:30:00', '2024-02-10', 2024, 1),
+                                                                                                (2, '2024-02-15 11:45:00', '2024-03-15', 2024, 2),
+                                                                                                (3, '2024-03-20 14:20:00', '2024-04-20', 2024, 3),
+                                                                                                (4, '2024-04-25 09:15:00', '2024-05-25', 2024, 4),
+                                                                                                (5, '2024-05-30 16:10:00', '2024-06-30', 2024, 5);
 
 -- Datos para la relación Many-to-Many entre Libro y Autor
 INSERT INTO libro_autores (libros_isbn, autores_codigo) VALUES

@@ -24,5 +24,7 @@ public interface LibroRepo extends JpaRepository<Libro, String> {
             "SELECT r FROM Reserva r JOIN r.libros rl WHERE rl.isbn = l.isbn AND r.fechaDevolucion >= :hoy)")
     List<Libro> findAvailableBooksByGenre(@Param("genero") String genero, @Param("hoy") LocalDate hoy);
 
+    // Método para encontrar libros por una lista de ISBNs
+    List<Libro> findAllByIsbnIn(List<String> isbns);
 }
 

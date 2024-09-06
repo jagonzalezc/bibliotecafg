@@ -1,5 +1,6 @@
 package org.fabricadegenios.servicios;
 
+import org.fabricadegenios.dto.AutorDTO;
 import org.fabricadegenios.model.Autor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,19 +8,22 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface AutorServicio {
-    Autor registrarAutor(Autor autor) throws Exception;
 
-    Autor obtenerAutor(Long id) throws Exception;
+    AutorDTO registrarAutor(AutorDTO autorDTO) throws Exception;
 
-    Autor actualizarAutor(Autor autor) throws Exception;
+    AutorDTO obtenerAutor(Long id) throws Exception;
 
-    void eliminarAutor(Autor autor) throws Exception;
+    AutorDTO actualizarAutor(AutorDTO autorDTO) throws Exception;
 
-    List<Autor> listarAutores();
+    void eliminarAutor(Long id) throws Exception;
 
-    Page<Autor> paginarAutores(Pageable pageable);
+    List<AutorDTO> listarAutores();
 
-    Page<Autor> buscarAutoresPorNombre(String nombre, Pageable pageable);
+    Page<AutorDTO> paginarAutores(Pageable pageable);
 
-    List<Autor> listarAutoresPorIds(List<Long> ids);
+    Page<AutorDTO> buscarAutoresPorNombre(String nombre, Pageable pageable);
+
+
+
+    List<AutorDTO> listarAutoresPorIds(List<Long> autorIds);
 }
