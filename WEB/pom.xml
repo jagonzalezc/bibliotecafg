@@ -9,33 +9,27 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>Negocio</artifactId>
-    <name>Proyecto de lógica de Negocio</name>
-    <description>Proyecto que representa la lógica de negocio y el acceso a los
-        datos</description>
+    <artifactId>WEB</artifactId>
+    <packaging>jar</packaging>
+
     <dependencies>
+        <!-- Spring Boot Starter Web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Dependency on Business and Persistence Modules -->
         <dependency>
             <groupId>org.fabricadegenios</groupId>
-            <artifactId>Persistencia</artifactId>
+            <artifactId>Negocio</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.9.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
+            <groupId>org.fabricadegenios</groupId>
+            <artifactId>Persistencia</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -44,5 +38,14 @@
         <maven.compiler.target>22</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

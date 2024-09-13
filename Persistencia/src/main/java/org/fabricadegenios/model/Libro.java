@@ -1,6 +1,7 @@
 package org.fabricadegenios.model;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,9 @@ import java.util.Objects;
 @Setter
 public class Libro implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long codigo;
     @Column(length = 50)
     private String isbn;
     @Column(length = 100, nullable = false)
@@ -65,6 +69,7 @@ public class Libro implements Serializable {
     @Override
     public String toString() {
         return "Libro{" +
+                "codigo=" + codigo +
                 "isbn=" + isbn +
                 ", nombre='" + nombre + '\'' +
                 ", editorial='" + editorial + '\'' +

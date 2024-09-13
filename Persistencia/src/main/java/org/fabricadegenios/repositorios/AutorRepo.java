@@ -14,7 +14,7 @@ public interface AutorRepo extends JpaRepository<Autor, Long> {
     @Query("SELECT a FROM Autor a WHERE LOWER(a.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
     Page<Autor> findByNombreContaining(@Param("nombre") String nombre, Pageable pageable);
 
-
+    Page<Autor> findByNombreContainingIgnoreCase(String nombre, Pageable pageable);
 
     // Método para paginar sin condiciones (lista completa de autores)
     @Override

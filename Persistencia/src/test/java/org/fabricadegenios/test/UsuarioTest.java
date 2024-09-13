@@ -1,6 +1,7 @@
 package org.fabricadegenios.test;
 
 import org.fabricadegenios.model.GeneroPersona;
+import org.fabricadegenios.model.Rol;
 import org.fabricadegenios.model.Usuario;
 import org.fabricadegenios.repositorios.UsuarioRepo;
 
@@ -35,7 +36,7 @@ public class UsuarioTest {
         u.setEmail("juana@mail.com");
         u.setPassword("clave123");
         u.setGenero(GeneroPersona.FEMENINO);
-
+        u.setRol(Rol.USER);
         // Guardamos el registro
         Usuario guardado = usuarioRepo.save(u);
 
@@ -55,7 +56,7 @@ public class UsuarioTest {
         u.setEmail("juana@mail.com");
         u.setPassword("clave123");
         u.setGenero(GeneroPersona.FEMENINO);
-
+        u.setRol(Rol.USER);
         // Primero lo guardamos
         Usuario registrado = usuarioRepo.save(u);
 
@@ -81,7 +82,7 @@ public class UsuarioTest {
         u.setEmail("juana@mail.com");
         u.setPassword("clave123");
         u.setGenero(GeneroPersona.FEMENINO);
-
+        u.setRol(Rol.USER);
         // Primero lo guardamos
         Usuario registrado = usuarioRepo.save(u);
 
@@ -112,6 +113,7 @@ public class UsuarioTest {
         u1.setEmail("juana@mail.com");
         u1.setPassword("clave123");
         u1.setGenero(GeneroPersona.FEMENINO);
+        u1.setRol(Rol.USER);
         usuarioRepo.save(u1);
 
         Usuario u2 = new Usuario();
@@ -120,6 +122,7 @@ public class UsuarioTest {
         u2.setEmail("carlos@mail.com");
         u2.setPassword("clave456");
         u2.setGenero(GeneroPersona.MASCULINO);
+        u2.setRol(Rol.USER);
         usuarioRepo.save(u2);
 
         // Obtenemos la lista de todos los usuarios

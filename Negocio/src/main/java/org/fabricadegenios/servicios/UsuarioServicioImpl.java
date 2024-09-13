@@ -134,7 +134,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 usuarioDTO.email(),
                 usuarioDTO.genero(),
                 usuarioDTO.nombre(),
-                usuarioDTO.password()
+                usuarioDTO.password(),
+                usuarioDTO.rol()
         );
     }
 
@@ -145,7 +146,8 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 usuario.getNombre(),
                 usuario.getEmail(),
                 usuario.getPassword(),
-                usuario.getGenero()
+                usuario.getGenero(),
+                usuario.getRol()
         );
     }
 

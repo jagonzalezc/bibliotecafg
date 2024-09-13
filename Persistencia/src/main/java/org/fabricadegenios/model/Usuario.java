@@ -47,12 +47,18 @@ public class Usuario implements Serializable {
     @OneToMany(mappedBy = "usuario")
     private List<Reserva> reservas;
 
-    public Usuario(String cedula, String email, GeneroPersona generoPersona, String nombre, String password) {
+    // Rol del usuario: puede ser USER o ADMIN
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20, nullable = false)
+    private Rol rol;
+
+    public Usuario(String cedula, String email, GeneroPersona generoPersona, String nombre, String password, Rol rol) {
         this.cedula = cedula;
         this.email = email;
         this.genero = generoPersona;
         this.nombre = nombre;
         this.password = password;
+        this.rol = rol;
     }
 
     @Override
@@ -63,6 +69,7 @@ public class Usuario implements Serializable {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", genero=" + genero +
+                ", rol=" + rol +
                 '}';
     }
 }

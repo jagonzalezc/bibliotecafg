@@ -1,5 +1,6 @@
 package org.fabricadegenios.repositorios;
 
+import org.fabricadegenios.model.Autor;
 import org.fabricadegenios.model.GeneroLibro;
 import org.fabricadegenios.model.Libro;
 import org.springframework.data.domain.Page;
@@ -10,8 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-public interface LibroRepo extends JpaRepository<Libro, String> {
+public interface LibroRepo extends JpaRepository<Libro, Long> {
 
     @Query("SELECT l FROM Libro l WHERE LOWER(l.genero) LIKE LOWER(CONCAT('%', :genero, '%'))")
     List<Libro> findAllByGenero(@Param("genero") String genero);
@@ -26,5 +28,7 @@ public interface LibroRepo extends JpaRepository<Libro, String> {
 
     // Método para encontrar libros por una lista de ISBNs
     List<Libro> findAllByIsbnIn(List<String> isbns);
+
+    Optional<Libro> findByIsbn(String isbn);
 }
 

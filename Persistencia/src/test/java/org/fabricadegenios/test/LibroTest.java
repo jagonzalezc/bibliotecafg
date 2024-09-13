@@ -57,7 +57,7 @@ public class LibroTest {
         libroRepo.delete(registrado);
 
         // Verificamos que se haya eliminado correctamente
-        Libro buscado = libroRepo.findById("123-456-789").orElse(null);
+        Libro buscado = libroRepo.findByIsbn("123-456-789").orElse(null);
         Assertions.assertNull(buscado);
         System.out.println("Libro eliminado correctamente.");
     }
@@ -76,7 +76,7 @@ public class LibroTest {
         Libro actualizado = libroRepo.save(registrado);
 
         // Verificamos que se haya actualizado correctamente
-        Libro buscado = libroRepo.findById("123-456-789").orElse(null);
+        Libro buscado = libroRepo.findByIsbn("123-456-789").orElse(null);
         assertNotNull(buscado);
         Assertions.assertEquals("Don Quijote de la Mancha", buscado.getNombre());
         System.out.println("Libro actualizado: " + buscado);

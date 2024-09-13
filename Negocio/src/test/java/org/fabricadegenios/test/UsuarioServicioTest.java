@@ -3,6 +3,7 @@ package org.fabricadegenios.test;
 import org.fabricadegenios.NegocioApplication;
 import org.fabricadegenios.dto.UsuarioDTO;
 import org.fabricadegenios.model.GeneroPersona;
+import org.fabricadegenios.model.Rol;
 import org.fabricadegenios.servicios.UsuarioServicio;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void registrarUsuarioTest() {
-        UsuarioDTO dto = new UsuarioDTO(null, "111", "Maria Lopez", "maria@gmail.com", "clave123", GeneroPersona.FEMENINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "111", "Maria Lopez", "maria@gmail.com", "clave123", GeneroPersona.FEMENINO, Rol.USER);
 
         try {
             // Guardamos el usuario usando DTO
@@ -41,7 +42,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void obtenerUsuarioTest() {
-        UsuarioDTO dto = new UsuarioDTO(null, "222", "Carlos", "carlos@mail.com", "clave456", GeneroPersona.MASCULINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "222", "Carlos", "carlos@mail.com", "clave456", GeneroPersona.MASCULINO, Rol.USER);
 
         try {
             UsuarioDTO guardado = usuarioServicio.registrarUsuario(dto);
@@ -57,7 +58,7 @@ public class UsuarioServicioTest {
     @Test
     public void actualizarUsuarioTest() {
         // Creación de un DTO de usuario con datos iniciales
-        UsuarioDTO dto = new UsuarioDTO(null, "333", "Ana", "ana@mail.com", "clave789", GeneroPersona.FEMENINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "333", "Ana", "ana@mail.com", "clave789", GeneroPersona.FEMENINO, Rol.USER);
 
         try {
             // Registra un nuevo usuario
@@ -70,7 +71,8 @@ public class UsuarioServicioTest {
                     "Ana Updated",           // Cambia el nombre a uno actualizado
                     guardado.email(),        // Mantiene el mismo correo electrónico
                     guardado.password(),     // Mantiene la misma contraseña
-                    guardado.genero()        // Mantiene el mismo género
+                    guardado.genero(),        // Mantiene el mismo género
+                    guardado.rol()        // Mantiene el mismo rol
             );
 
             // Llama al método de actualizar usuario
@@ -86,7 +88,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void eliminarUsuarioTest() {
-        UsuarioDTO dto = new UsuarioDTO(null, "444", "Luis", "luis@mail.com", "clave000", GeneroPersona.MASCULINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "444", "Luis", "luis@mail.com", "clave000", GeneroPersona.MASCULINO, Rol.USER);
 
         try {
             UsuarioDTO guardado = usuarioServicio.registrarUsuario(dto);
@@ -106,8 +108,8 @@ public class UsuarioServicioTest {
 
     @Test
     public void listarUsuariosTest() {
-        UsuarioDTO dto1 = new UsuarioDTO(null, "555", "Maria", "maria@mail.com", "clave111", GeneroPersona.FEMENINO);
-        UsuarioDTO dto2 = new UsuarioDTO(null, "666", "Pedro", "pedro@mail.com", "clave222", GeneroPersona.MASCULINO);
+        UsuarioDTO dto1 = new UsuarioDTO(null, "555", "Maria", "maria@mail.com", "clave111", GeneroPersona.FEMENINO, Rol.USER);
+        UsuarioDTO dto2 = new UsuarioDTO(null, "666", "Pedro", "pedro@mail.com", "clave222", GeneroPersona.MASCULINO, Rol.USER);
 
         try {
             usuarioServicio.registrarUsuario(dto1);
@@ -124,7 +126,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void obtenerUsuarioPorCedulaTest() {
-        UsuarioDTO dto = new UsuarioDTO(null, "777", "Sofia", "sofia@mail.com", "clave333", GeneroPersona.FEMENINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "777", "Sofia", "sofia@mail.com", "clave333", GeneroPersona.FEMENINO, Rol.USER);
 
         try {
             UsuarioDTO guardado = usuarioServicio.registrarUsuario(dto);
@@ -139,7 +141,7 @@ public class UsuarioServicioTest {
 
     @Test
     public void buscarUsuarioPorNombreTest() {
-        UsuarioDTO dto = new UsuarioDTO(null, "888", "Gonzalo", "gonzalo@mail.com", "clave444", GeneroPersona.MASCULINO);
+        UsuarioDTO dto = new UsuarioDTO(null, "888", "Gonzalo", "gonzalo@mail.com", "clave444", GeneroPersona.MASCULINO, Rol.USER);
 
         try {
             usuarioServicio.registrarUsuario(dto);
@@ -155,9 +157,9 @@ public class UsuarioServicioTest {
     @Test
     public void paginarUsuariosTest() throws Exception {
         try {
-            UsuarioDTO dto1 = new UsuarioDTO(null, "123", "Ana", "ana@mail.com", "clave123", GeneroPersona.FEMENINO);
-            UsuarioDTO dto2 = new UsuarioDTO(null, "456", "Luis", "luis@mail.com", "clave456", GeneroPersona.MASCULINO);
-            UsuarioDTO dto3 = new UsuarioDTO(null, "789", "Gonzalo", "gonzalo@mail.com", "clave789", GeneroPersona.MASCULINO);
+            UsuarioDTO dto1 = new UsuarioDTO(null, "123", "Ana", "ana@mail.com", "clave123", GeneroPersona.FEMENINO, Rol.USER);
+            UsuarioDTO dto2 = new UsuarioDTO(null, "456", "Luis", "luis@mail.com", "clave456", GeneroPersona.MASCULINO, Rol.USER);
+            UsuarioDTO dto3 = new UsuarioDTO(null, "789", "Gonzalo", "gonzalo@mail.com", "clave789", GeneroPersona.MASCULINO, Rol.USER);
 
             usuarioServicio.registrarUsuario(dto1);
             usuarioServicio.registrarUsuario(dto2);

@@ -1,4 +1,4 @@
-package org.fabricadegenios.dto;
+package org.fabricadegenios.dto.admin;
 
 import org.fabricadegenios.model.GeneroLibro;
 
@@ -6,12 +6,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public record ReservaDTO(
-        Long codigo,
+public record RegistroReservaDTO(
+
         LocalDateTime fechaReserva,
         LocalDate fechaDevolucion,
-        int anio,
+        Integer anio,
         Long usuarioId,
         List<Long> libroIds
 ) { }
-

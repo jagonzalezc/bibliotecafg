@@ -7,6 +7,7 @@
     <modules>
         <module>Persistencia</module>
         <module>Negocio</module>
+        <module>WEB</module>
     </modules>
 
     <parent>

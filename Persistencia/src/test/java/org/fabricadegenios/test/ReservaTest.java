@@ -43,6 +43,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear libros
@@ -77,7 +78,7 @@ public class ReservaTest {
 
         // Verificar que la disponibilidad de los libros ha cambiado a false
         libros.forEach(libro -> {
-            Libro libroVerificado = libroRepo.findById(libro.getIsbn()).orElse(null);
+            Libro libroVerificado = libroRepo.findById(libro.getCodigo()).orElse(null);
             Assertions.assertNotNull(libroVerificado);
             Assertions.assertFalse(libroVerificado.getDisponible());
         });
@@ -95,6 +96,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear un libro con disponibilidad en true
@@ -127,7 +129,7 @@ public class ReservaTest {
         Assertions.assertNull(buscada);
 
         // Verificar que el libro haya recuperado su estado de disponibilidad
-        Libro libroRecuperado = libroRepo.findById(libroGuardado.getIsbn()).orElse(null);
+        Libro libroRecuperado = libroRepo.findById(libroGuardado.getCodigo()).orElse(null);
         Assertions.assertNotNull(libroRecuperado);
         Assertions.assertTrue(libroRecuperado.getDisponible());
 
@@ -144,6 +146,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear un libro con disponibilidad en true
@@ -189,6 +192,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear un libro con disponibilidad en true
@@ -237,6 +241,7 @@ public class ReservaTest {
         usuario.setEmail("maria@mail.com");
         usuario.setPassword("password123");
         usuario.setGenero(GeneroPersona.FEMENINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear dos libros con disponible en true
@@ -271,8 +276,8 @@ public class ReservaTest {
         Assertions.assertEquals(LocalDate.now(), buscada.getFechaDevolucion());
 
         // Verificar que los libros estén disponibles nuevamente
-        Assertions.assertTrue(libroRepo.findById(libroGuardado1.getIsbn()).get().getDisponible());
-        Assertions.assertTrue(libroRepo.findById(libroGuardado2.getIsbn()).get().getDisponible());
+        Assertions.assertTrue(libroRepo.findById(libroGuardado1.getCodigo()).get().getDisponible());
+        Assertions.assertTrue(libroRepo.findById(libroGuardado2.getCodigo()).get().getDisponible());
 
         System.out.println("Reserva finalizada: " + buscada);
     }
@@ -287,6 +292,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear un libro con disponibilidad en true
@@ -331,6 +337,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear y guardar libro con disponibilidad en true
@@ -398,6 +405,7 @@ public class ReservaTest {
         usuario.setEmail("luis@mail.com");
         usuario.setPassword("clave456");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear y guardar libro
@@ -456,6 +464,7 @@ public class ReservaTest {
         usuario.setEmail("carlos@mail.com");
         usuario.setPassword("clave123");
         usuario.setGenero(GeneroPersona.MASCULINO);
+        usuario.setRol(Rol.USER);
         Usuario usuarioGuardado = usuarioRepo.save(usuario);
 
         // Crear y guardar libro

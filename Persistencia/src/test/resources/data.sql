@@ -1,10 +1,12 @@
 -- Datos para la entidad Usuario
-INSERT INTO usuario (codigo, email, password, cedula, nombre, genero) VALUES
-                                                                          (1, "maria@gmail.com", "clave123", "11111111", "Maria Lopez", 'FEMENINO'),
-                                                                          (2, "juan@gmail.com", "clave456", "22222222", "Juan Perez", 'MASCULINO'),
-                                                                          (3, "anamaria@gmail.com", "clave789", "33333333", "AnaMaria Gomez", 'FEMENINO'),
-                                                                          (4, "carlos@gmail.com", "clave321", "44444444", "Carlos Ruiz", 'MASCULINO'),
-                                                                          (5, "luis@gmail.com", "clave654", "55555555", "Luis Torres", 'MASCULINO');
+INSERT INTO usuario (codigo, email, password, cedula, nombre, genero, rol) VALUES
+                                                                          (1, "maria@gmail.com", "clave123", "11111111", "Maria Lopez", 'FEMENINO', 'USER'),
+                                                                          (2, "juan@gmail.com", "clave456", "22222222", "Juan Perez", 'MASCULINO', 'USER'),
+                                                                          (3, "anamaria@gmail.com", "clave789", "33333333", "AnaMaria Gomez", 'FEMENINO', 'USER'),
+                                                                          (4, "carlos@gmail.com", "clave321", "44444444", "Carlos Ruiz", 'MASCULINO', 'USER'),
+                                                                          (5, "luis@gmail.com", "clave654", "55555555", "Luis Torres", 'MASCULINO', 'USER'),
+                                                                          (6, "superalejo20@gmail.com", "Admin123", "1094916789", "administrador db", 'MASCULINO', 'ADMIN');
+
 -- Datos para la entidad Libro
 INSERT INTO libro (isbn, nombre, editorial, anio, disponible, genero) VALUES
                                                               ('9780140449136', 'The Odyssey', 'Penguin Classics', 2003,true, 'LITERATURA'),
