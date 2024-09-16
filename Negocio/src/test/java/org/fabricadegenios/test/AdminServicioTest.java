@@ -40,18 +40,30 @@ public class AdminServicioTest {
 
     @Test
     public void registrarUsuarioTest() {
-        RegistroUsuarioDTO registroUsuarioDTO = new RegistroUsuarioDTO( "111", "Maria Lopez", "maria@gmail.com", "clave123", "FEMENINO", "USER");
+        RegistroUsuarioDTO registroUsuarioDTO = new RegistroUsuarioDTO("111", "Maria Lopez", "maria@gmail.com", "clave123", "FEMENINO", "USER");
 
         try {
+            // Imprimimos información del DTO antes de guardar
+            System.out.println("Intentando registrar el usuario: " + registroUsuarioDTO);
+
             // Guardamos el usuario usando DTO
             Long nuevo = administradorServicio.registrarUsuario(registroUsuarioDTO);
-            // Comprobamos que si haya quedado
-            Assertions.assertNotEquals(0,nuevo);
+
+            // Imprimimos el ID del nuevo usuario
+            System.out.println("Usuario registrado con ID: " + nuevo);
+
+            // Comprobamos que el ID no sea cero (usuario registrado correctamente)
+            Assertions.assertNotEquals(0, nuevo);
+
+            // Imprimimos confirmación de éxito
+            System.out.println("Test completado exitosamente: Usuario registrado.");
         } catch (Exception e) {
+            // Imprimimos el error en caso de excepción
             e.printStackTrace();
-            Assertions.fail("Exception occurred during user registration: " + e.getMessage());
+            Assertions.fail("Ocurrió una excepción durante el registro del usuario: " + e.getMessage());
         }
     }
+
 
     @Test
     public void obtenerUsuarioTest() {

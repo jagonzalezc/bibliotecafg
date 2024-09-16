@@ -16,6 +16,7 @@ import org.fabricadegenios.repositorios.ReservaRepo;
 import org.fabricadegenios.repositorios.UsuarioRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -31,6 +32,7 @@ public class AdministradorServicioImpl implements AdministradorServicio {
     private final AutorRepo autorRepo;
     private final LibroRepo libroRepo;
     private final ReservaRepo reservaRepo;
+    private final PasswordEncoder passwordEncoder;
 
     // MÉTODOS DE USUARIO
     @Override
@@ -40,9 +42,14 @@ public class AdministradorServicioImpl implements AdministradorServicio {
                     throw new RuntimeException("El usuario con la cédula ya existe");
                 });
 
-        Usuario usuario = convertirADominioUsuario(registroUsuarioDTO);
-        return usuarioRepo.save(usuario).getCodigo();
+        Usuario nuevoUsuario = convertirADominioUsuario(registroUsuarioDTO);
+
+        // Codificar la contraseña antes de guardar el usuario
+        nuevoUsuario.setPassword(passwordEncoder.encode(registroUsuarioDTO.password()));
+
+        return usuarioRepo.save(nuevoUsuario).getCodigo();
     }
+
 
     @Override
     public UsuarioDTO actualizarUsuario(Long codigo, RegistroUsuarioDTO registroUsuarioDTO) {

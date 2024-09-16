@@ -25,7 +25,7 @@ public class Usuario implements Serializable {
     @Email(message = "El email debe tener un formato válido")
     private String email;
 
-    @Column(length = 20, nullable = false)
+    @Column(length = 200, nullable = false)
     private String password;
 
     @Column(length = 10)
