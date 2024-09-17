@@ -2,57 +2,39 @@ package org.fabricadegenios.servicios;
 
 import org.fabricadegenios.dto.LoginDTO;
 import org.fabricadegenios.dto.TokenDTO;
-
 import org.fabricadegenios.model.Usuario;
 import org.fabricadegenios.repositorios.UsuarioRepo;
 import org.fabricadegenios.utils.JWTUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/*
-import java.util.Optional;
-
-@Service
-@RequiredArgsConstructor
-public class AutenticacionServicioImpl implements AutenticacionServicio {
-    private final CuentaRepo cuentaRepo;
-
-    @Override
-    public Cuenta login(String email, String password) throws  Exception {
-        Optional<Cuenta> cuenta=cuentaRepo.findByEmailAndPassword(email, password);
-        if (cuenta.isEmpty()) {
-    throw new Exception("los datos de autenticacion son incorrectos");
-        }
-        return cuenta.get();
-    }
-}
- */
 @Service
 @RequiredArgsConstructor
 public class AutenticacionServicioImpl implements AutenticacionServicio {
     private final UsuarioRepo usuarioRepo;
     private final JWTUtils jwtUtils;
+    private final PasswordEncoder passwordEncoder;  // Inyección de PasswordEncoder
+
     @Override
     public TokenDTO login(LoginDTO loginDTO) throws Exception {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Usuario usuario = usuarioRepo.findByEmail(loginDTO.email())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con el email: " + loginDTO.email()));
 
-        if(usuario.getEmail() ==null){
+        if (usuario.getEmail() == null) {
             throw new Exception("No existe el email ingresado");
         }
 
-        if( passwordEncoder.matches(loginDTO.password(), usuario.getPassword()) ){
+        if (!passwordEncoder.matches(loginDTO.password(), usuario.getPassword())) {
             throw new Exception("La contraseña ingresada es incorrecta");
         }
 
-
-        return new TokenDTO( crearToken(usuario) );
+        return new TokenDTO(crearToken(usuario));
     }
+
     private String crearToken(Usuario usuario) {
         // Obtener el rol desde la entidad Usuario
         String rol = usuario.getRol().toString().toLowerCase();  // Asumimos que Rol es un Enum y convertimos a minúsculas
@@ -65,7 +47,10 @@ public class AutenticacionServicioImpl implements AutenticacionServicio {
         claims.put("id", usuario.getCodigo());
 
         // Generar el token utilizando el método generarToken de jwtUtils
-        return jwtUtils.generarToken(usuario.getEmail(), claims);
-    }
+        String token = jwtUtils.generarToken(usuario.getEmail(), claims);
+        System.out.println("Token generado: " + token);  // Útil para depuración
 
+        return token;
+    }
 }
+

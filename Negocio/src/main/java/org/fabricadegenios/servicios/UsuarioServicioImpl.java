@@ -1,23 +1,25 @@
 package org.fabricadegenios.servicios;
 
+import lombok.RequiredArgsConstructor;
 import org.fabricadegenios.dto.UsuarioDTO;
 import org.fabricadegenios.model.Usuario;
 import org.fabricadegenios.repositorios.UsuarioRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UsuarioServicioImpl implements UsuarioServicio {
 
     private final UsuarioRepo usuarioRepo;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioServicioImpl(UsuarioRepo usuarioRepo) {
-        this.usuarioRepo = usuarioRepo;
-    }
+    // Constructor no es necesario por @RequiredArgsConstructor, se eliminó
 
     @Override
     public UsuarioDTO registrarUsuario(UsuarioDTO dto) throws Exception {
@@ -27,54 +29,40 @@ public class UsuarioServicioImpl implements UsuarioServicio {
         }
 
         Usuario usuario = convertirADominio(dto);
+        String passwordCifrada = passwordEncoder.encode(usuario.getPassword());
+        usuario.setPassword(passwordCifrada);
         Usuario guardado = usuarioRepo.save(usuario);
         return convertirADTO(guardado);
     }
 
     @Override
     public UsuarioDTO obtenerUsuario(Long id) throws Exception {
-        Optional<Usuario> buscado = usuarioRepo.findById(id);
-        if (buscado.isEmpty()) {
-            throw new Exception("El código no se encuentra en uso");
-        }
-
-        Usuario usuario = buscado.get();
+        Usuario usuario = usuarioRepo.findById(id)
+                .orElseThrow(() -> new Exception("El código no se encuentra en uso"));
         return convertirADTO(usuario);
     }
 
     @Override
     public UsuarioDTO actualizarUsuario(UsuarioDTO dto) throws Exception {
-        // Verificar si el usuario con el ID proporcionado ya existe en la base de datos
-        Optional<Usuario> optionalUsuario = usuarioRepo.findById(dto.id());
+        Usuario usuarioExistente = usuarioRepo.findById(dto.id())
+                .orElseThrow(() -> new Exception("Usuario con ID " + dto.id() + " no existe."));
 
-        if (optionalUsuario.isEmpty()) {
-            throw new Exception("Usuario con ID " + dto.id() + " no existe."); // O manejar de otra manera
-        }
-
-        // Actualizar los campos del usuario existente con los valores del DTO
-        Usuario usuarioExistente = optionalUsuario.get();
+        // Actualizar campos
         usuarioExistente.setNombre(dto.nombre());
         usuarioExistente.setCedula(dto.cedula());
         usuarioExistente.setEmail(dto.email());
-        usuarioExistente.setPassword(dto.password());
+        usuarioExistente.setPassword(passwordEncoder.encode(dto.password())); // Cifra la nueva contraseña
         usuarioExistente.setGenero(dto.genero());
 
-        // Guardar la entidad actualizada
         Usuario actualizado = usuarioRepo.save(usuarioExistente);
-
-        // Convertir de nuevo a DTO y devolver el usuario actualizado
         return convertirADTO(actualizado);
     }
 
-
     @Override
     public void eliminarUsuario(Long id) throws Exception {
-        Optional<Usuario> buscado = usuarioRepo.findById(id);
-        if (buscado.isEmpty()) {
-            throw new Exception("El código no se encuentra en uso");
-        }
-
-        usuarioRepo.delete(buscado.get());
+        Usuario usuario = usuarioRepo.findById(id)
+                .orElseThrow(() -> new Exception("El código no se encuentra en uso"));
+        usuarioRepo.delete(usuario);
     }
 
     @Override
@@ -87,12 +75,9 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public UsuarioDTO obtenerUsuariosPorCedula(String cedula) throws Exception {
-        Optional<Usuario> usuario = usuarioRepo.findByCedula(cedula);
-        if (usuario.isEmpty()) {
-            throw new Exception("No existe un usuario con la cédula dada");
-        }
-
-        return convertirADTO(usuario.get());
+        Usuario usuario = usuarioRepo.findByCedula(cedula)
+                .orElseThrow(() -> new Exception("No existe un usuario con la cédula dada"));
+        return convertirADTO(usuario);
     }
 
     @Override
@@ -105,13 +90,13 @@ public class UsuarioServicioImpl implements UsuarioServicio {
 
     @Override
     public Optional<UsuarioDTO> findByEmailAndPassword(String email, String password) {
-        Optional<Usuario> usuario = usuarioRepo.findByEmailAndPassword(email, password);
+        Optional<Usuario> usuario = usuarioRepo.findByEmailAndPassword(email, passwordEncoder.encode(password));
         return usuario.map(this::convertirADTO);
     }
 
     @Override
     public Optional<UsuarioDTO> findByCedulaAndPassword(String cedula, String password) {
-        Optional<Usuario> usuario = usuarioRepo.findByCedulaAndPassword(cedula, password);
+        Optional<Usuario> usuario = usuarioRepo.findByCedulaAndPassword(cedula, passwordEncoder.encode(password));
         return usuario.map(this::convertirADTO);
     }
 
@@ -122,24 +107,22 @@ public class UsuarioServicioImpl implements UsuarioServicio {
     }
 
     public boolean estaDisponible(String email) {
-        Optional<Usuario> usuario = usuarioRepo.findByEmail(email);
-        return usuario.isEmpty();
+        return usuarioRepo.findByEmail(email).isEmpty();
     }
 
     // Métodos reutilizables para convertir entre Usuario y UsuarioDTO
-
-    public Usuario convertirADominio(UsuarioDTO usuarioDTO) {
+    private Usuario convertirADominio(UsuarioDTO usuarioDTO) {
         return new Usuario(
                 usuarioDTO.cedula(),
                 usuarioDTO.email(),
                 usuarioDTO.genero(),
                 usuarioDTO.nombre(),
-                usuarioDTO.password(),
+                usuarioDTO.password(), // El password se cifra luego
                 usuarioDTO.rol()
         );
     }
 
-    public UsuarioDTO convertirADTO(Usuario usuario) {
+    private UsuarioDTO convertirADTO(Usuario usuario) {
         return new UsuarioDTO(
                 usuario.getCodigo(),
                 usuario.getCedula(),
@@ -150,5 +133,4 @@ public class UsuarioServicioImpl implements UsuarioServicio {
                 usuario.getRol()
         );
     }
-
 }
