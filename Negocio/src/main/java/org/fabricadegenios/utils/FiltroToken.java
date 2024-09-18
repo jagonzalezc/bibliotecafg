@@ -28,18 +28,21 @@ public class FiltroToken extends OncePerRequestFilter {
         // Configuración de cabeceras para CORS
         res.addHeader("Access-Control-Allow-Origin", "*");
         res.addHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-        res.addHeader("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, Authorization");
+        res.addHeader("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, " +
+                "Authorization");
                 res.addHeader("Access-Control-Allow-Credentials", "true");
-        if (req.getMethod().equals("OPTIONS")) {
+
+                if (req.getMethod().equals("OPTIONS")) {
             res.setStatus(HttpServletResponse.SC_OK);
         }else {
             String requestURI = req.getRequestURI();
             String token = getToken(req);
             boolean error = true;
+
         try{
             if (requestURI.startsWith("/api/pacientes") || requestURI.startsWith("/api/medicos")
 
-                    || requestURI.startsWith("/api/admins") ) {
+                    || requestURI.startsWith("/api/admin") ) {
                 if(token != null) {
                     Jws<Claims> jws = jwtUtils.parseJwt(token);
                     if (
@@ -51,7 +54,7 @@ public class FiltroToken extends OncePerRequestFilter {
 
                                             !jws.getBody().get("rol").equals("medico") ) ||
 
-                                    ( requestURI.startsWith("/api/admins") &&
+                                    ( requestURI.startsWith("/api/admin") &&
 
                                             !jws.getBody().get("rol").equals("admin") )) {
 

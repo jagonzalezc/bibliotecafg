@@ -7,6 +7,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -17,28 +22,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Deshabilitar CSRF si es una API REST
-                .csrf(csrf -> csrf.disable())
-
-                // Configurar la autorización
+                .csrf(csrf -> csrf.disable()) // Desactiva CSRF
                 .authorizeHttpRequests(auth -> auth
-                        // Permitir acceso sin autenticación a la ruta de login
-                        .requestMatchers("/api/auth/login").permitAll()
-
-                        // Solo permitir a ADMIN realizar los CRDs
-                        .requestMatchers("/api/auth/crear-usuario",
-                                "/api/auth/crear-autor",
-                                "/api/auth/crear-libro",
-                                "/api/auth/crear-reserva").hasRole("ADMIN")
-
-                        // Todas las demás peticiones requieren autenticación
-                        .anyRequest().authenticated()
-                )
-
-                // Habilitar autenticación básica
-                .httpBasic(withDefaults());
-
+                        .requestMatchers("/api/auth/**").permitAll()// Permitir acceso a las rutas de autenticación
+                        .requestMatchers("/api/admin/**").permitAll()
+                        .anyRequest().authenticated() // Requiere autenticación para otras rutas
+                );
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("http://localhost:4200")); // Origen permitido
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Métodos permitidos
+        configuration.setAllowedHeaders(List.of("*")); // Cabeceras permitidas
+        configuration.setAllowCredentials(true); // Permitir credenciales
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // Aplica la configuración de CORS para todas las rutas
+        return source;
     }
 
     @Bean

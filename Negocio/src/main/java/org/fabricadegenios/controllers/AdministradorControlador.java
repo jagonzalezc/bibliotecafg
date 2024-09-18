@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -53,7 +54,15 @@ public class AdministradorControlador {
 
     @GetMapping("/usuarios")
     public ResponseEntity<Page<UsuarioDTO>> listarUsuarios(Pageable pageable) {
+        System.out.println("pasa");
         Page<UsuarioDTO> usuarios = administradorServicio.paginarUsuarios(pageable);
+        return ResponseEntity.ok(usuarios);
+    }
+
+    @GetMapping("/listaUsuarios")
+    public ResponseEntity<List<UsuarioDTO>> listaUsuarios() {
+        System.out.println("pasa");
+        List<UsuarioDTO> usuarios = administradorServicio.listarUsuarios();
         return ResponseEntity.ok(usuarios);
     }
 
