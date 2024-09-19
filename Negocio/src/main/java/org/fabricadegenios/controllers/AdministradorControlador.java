@@ -122,6 +122,14 @@ public class AdministradorControlador {
         return ResponseEntity.ok(libroActualizado);
     }
 
+    @PutMapping("/libros/{isbn}/autores")
+    public ResponseEntity<LibroDTO> asignarAutoresLibro(@PathVariable Long isbn, @RequestBody List<Long> autores) throws Exception {
+        // Llama al servicio para asignar los autores al libro con el ISBN proporcionado
+        LibroDTO libroActualizado = administradorServicio.asignarAutoresAlLibro(isbn, autores);
+        // Devuelve la respuesta con el libro actualizado
+        return ResponseEntity.ok(libroActualizado);
+    }
+
     @DeleteMapping("/libros/{isbn}")
     public ResponseEntity<Void> eliminarLibro(@PathVariable Long isbn) throws Exception {
         administradorServicio.eliminarLibro(isbn);
@@ -151,6 +159,19 @@ public class AdministradorControlador {
     public ResponseEntity<Void> actualizarReserva(@PathVariable Long id, @RequestBody RegistroReservaDTO registroReservaDTO) throws Exception {
         administradorServicio.actualizarReserva(id, registroReservaDTO);
         return ResponseEntity.noContent().build();
+    }
+
+    // Endpoint para asignar libros a una reserva existente
+    @PutMapping("/reservas/{reservaId}/libros")
+    public ResponseEntity<ReservaDTO> asignarLibrosAReserva(@PathVariable Long reservaId, @RequestBody List<Long> libroIds) throws Exception {
+        // Llama al servicio para asignar los libros a la reserva con el ID proporcionado
+        administradorServicio.asignarLibrosAReserva(reservaId, libroIds);
+
+        // Obtener la reserva actualizada (si necesitas devolverla como respuesta)
+        ReservaDTO reservaActualizada = administradorServicio.obtenerReserva(reservaId);
+
+        // Devuelve la respuesta con la reserva actualizada
+        return ResponseEntity.ok(reservaActualizada);
     }
 
     @DeleteMapping("/reservas/{id}")

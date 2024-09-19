@@ -362,19 +362,25 @@ public class AdminServicioTest {
     @Test
     public void asignarAutoresAlLibroTest() throws Exception {
         // Crear y registrar autores para la prueba
-        RegistroAutorDTO registroAutorDTO1 = new RegistroAutorDTO( "Gabriel García Márquez", 1927);
-        RegistroAutorDTO registroAutorDTO2 = new RegistroAutorDTO( "Mario Vargas Llosa", 1936);
+        RegistroAutorDTO registroAutorDTO1 = new RegistroAutorDTO("Gabriel García Márquez", 1927);
+        RegistroAutorDTO registroAutorDTO2 = new RegistroAutorDTO("Mario Vargas Llosa", 1936);
+
+        // Registrar autores y obtener sus IDs
         Long autorRegistrado1 = administradorServicio.registrarAutor(registroAutorDTO1);
         Long autorRegistrado2 = administradorServicio.registrarAutor(registroAutorDTO2);
 
+        // Crear y registrar un libro para la prueba
         RegistroLibroDTO libroDTO = new RegistroLibroDTO("1234567890", "Cien años de soledad", "Editorial XYZ", 1967, true, "FICCION", Arrays.asList());
         Long codigoLibroGuardado = administradorServicio.registrarLibro(libroDTO);
 
-        administradorServicio.asignarAutoresAlLibro(codigoLibroGuardado, Arrays.asList(autorRegistrado1, autorRegistrado2));
+        // Asignar los autores al libro usando el servicio
+        LibroDTO libroConAutores = administradorServicio.asignarAutoresAlLibro(codigoLibroGuardado, Arrays.asList(autorRegistrado1, autorRegistrado2));
 
-        LibroDTO libroConAutores = administradorServicio.obtenerLibro(codigoLibroGuardado);
+        // Verificar que el libro no es nulo y que los autores se han asignado correctamente
         assertNotNull(libroConAutores);
-        assertEquals(2, libroConAutores.autorIds().size()); // Verificar que los autores se han asignado correctamente
+        assertEquals(2, libroConAutores.autorIds().size());
+        assertTrue(libroConAutores.autorIds().contains(autorRegistrado1));
+        assertTrue(libroConAutores.autorIds().contains(autorRegistrado2));
     }
 
 

@@ -62,7 +62,7 @@ public interface AdministradorServicio {
 
     LibroDTO actualizarLibro(Long codigo, RegistroLibroDTO registroLibroDTO) throws Exception;
 
-    void asignarAutoresAlLibro(Long isbn, List<Long> autorIds) throws Exception;
+    LibroDTO asignarAutoresAlLibro(Long isbn, List<Long> autorIds) throws Exception;
 
     LibroDTO obtenerLibro(Long codigo) throws Exception;
 

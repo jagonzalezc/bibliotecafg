@@ -221,14 +221,24 @@ public class AdministradorServicioImpl implements AdministradorServicio {
     }
 
     @Override
-    public void asignarAutoresAlLibro(Long codigo, List<Long> autorIds) {
+    public LibroDTO asignarAutoresAlLibro(Long codigo, List<Long> autorIds) {
+        // Buscar el libro por su código (ISBN)
         Libro libro = libroRepo.findById(codigo)
                 .orElseThrow(() -> new RuntimeException("El libro con el código proporcionado no existe."));
 
+        // Obtener la lista de autores a partir de los IDs proporcionados
         List<Autor> autores = autorRepo.findAllById(autorIds);
+
+        // Asignar la lista de autores al libro
         libro.setAutores(autores);
-        libroRepo.save(libro);
+
+        // Guardar el libro actualizado en el repositorio
+        Libro libroActualizado = libroRepo.save(libro);
+
+        // Convertir el libro actualizado a DTO y devolverlo
+        return convertirADTOLibro(libroActualizado);
     }
+
 
     @Override
     public LibroDTO obtenerLibro(Long codigo) {
@@ -333,19 +343,24 @@ public class AdministradorServicioImpl implements AdministradorServicio {
             }
         }
 
-        // Asignar los libros a la reserva
+        // Asignar los libros a la reserva evitando duplicados
         for (Long libroId : libroIds) {
             Optional<Libro> libroOpt = libroRepo.findById(libroId);
             Libro libro = libroOpt.get();
-            reserva.getLibros().add(libro);
-            // Actualizar la disponibilidad del libro
-            libro.setDisponible(false);
-            libroRepo.save(libro);
+
+            // Verificar si el libro ya está asignado a la reserva
+            if (!reserva.getLibros().contains(libro)) {
+                reserva.getLibros().add(libro);
+                // Actualizar la disponibilidad del libro
+                libro.setDisponible(false);
+                libroRepo.save(libro);
+            }
         }
 
         // Guardar la reserva actualizada
         reservaRepo.save(reserva);
     }
+
 
     @Override
     public ReservaDTO obtenerReserva(Long codigo) {
